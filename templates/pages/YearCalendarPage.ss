@@ -119,4 +119,3 @@
         </div>
     </div>
 </section>
-<% include ContentFooter %>
