@@ -46,10 +46,6 @@ class YearCalendarPage extends Page
         $end = new DateTimeHelper(sprintf('%1$s-12-31', $this->year));
         $end->setTimeToDayEnd();
 
-        $tag = YearCalendarItemTag::get()
-            ->filter(['URLSegment' => 'vakantie'])
-            ->first();
-
         $items = YearCalendarItem::get()
             ->leftJoin('YearCalendarItem_Tags', 'YearCalendarItem.ID = YearCalendarItem_Tags.YearCalendarItemID')
             ->leftJoin('YearCalendarItemTag', 'YearCalendarItem_Tags.YearCalendarItemTagID = YearCalendarItemTag.ID')
