@@ -10,7 +10,7 @@ class YearCalendarAdmin extends ModelAdmin
 
     private static $url_segment = 'yearcalendar';
     private static $menu_title  = 'Year Calendar';
-    private static $menu_icon   = YEARCALENDAR_DIR . '/images/calendar-icon.png';
+    private static $menu_icon   = 'yearcalendar/images/calendar-icon.png';
 
     public function getEditForm($id = null, $fields = null)
     {

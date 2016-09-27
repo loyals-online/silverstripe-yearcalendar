@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class CalendarPage
+ * Class YearCalendarPage
  *
  */
 class YearCalendarPage extends Page
@@ -78,7 +78,7 @@ class YearCalendarPage extends Page
  * Class CalendarPage_Controller
  *
  */
-class CalendarPage_Controller extends Page_Controller
+class YearCalendarPage_Controller extends Page_Controller
 {
     public function init()
     {
