@@ -1,0 +1,14 @@
+nl:
+  YearCalendar:
+    YearCalendar: 'Jaaroverzicht'
+    Holidays: 'Vakanties'
+    CurrentMonth: 'Deze maand'
+    Days:
+      Sunday: Zondag
+      Monday: Maandag
+      Tuesday: Dinsdag
+      Wednesday: Woensdag
+      Thursday: Donderdag
+      Friday: Vrijdag
+      Saturday: Zaterdag
+    NoEvents: 'Geen activiteiten deze maand'

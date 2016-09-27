@@ -3,8 +3,8 @@
         <div class="medium-12 <% if not $Menu(2) %>small-centered<% end_if %> columns animated fadeInUpShort" data-id='3'>
             <div class="panel">
                 <ul class="tabs text-center" data-tab>
-                    <li class="tab-title active"><a class="tab" href="#panel1">Jaaroverzicht</a></li>
-                    <li class="tab-title"><a class="tab" href="#panel2">Vakanties</a></li>
+                    <li class="tab-title active"><a class="tab" href="#panel1"><%t YearCalendar.YearCalendar 'Year Calendar' %></a></li>
+                    <li class="tab-title"><a class="tab" href="#panel2"><%t YearCalendar.Holidays 'Holidays' %></a></li>
                 </ul>
                 <div class="tabs-content">
                     <div class="content active" id="panel1">
@@ -29,18 +29,18 @@
                             <header id="date">
                                 <h1>$YearCalendarItems.Month.Text $YearCalendarItems.Year</h1>
                                 <button class="previous tiny left">$YearCalendarItems.PreviousMonth</button>
-                                <button class="current tiny"><%t Site.CurrentMonth 'This month' %></button>
+                                <button class="current tiny"><%t YearCalendar.CurrentMonth 'This month' %></button>
                                 <button class="next tiny right">$YearCalendarItems.NextMonth</button>
                             </header>
                             <div id="calendar">
                                 <ul class="weekdays">
-                                    <li>Zondag</li>
-                                    <li>Maandag</li>
-                                    <li>Dinsdag</li>
-                                    <li>Woensdag</li>
-                                    <li>Donderdag</li>
-                                    <li>Vrijdag</li>
-                                    <li>Zaterdag</li>
+                                    <li><%t YearCalendar.Days.Sunday 'Sunday' %></li>
+                                    <li><%t YearCalendar.Days.Monday 'Monday' %></li>
+                                    <li><%t YearCalendar.Days.Tuesday 'Tuesday' %></li>
+                                    <li><%t YearCalendar.Days.Wednesday 'Wednesday' %></li>
+                                    <li><%t YearCalendar.Days.Thursday 'Thursday' %></li>
+                                    <li><%t YearCalendar.Days.Friday 'Friday' %></li>
+                                    <li><%t YearCalendar.Days.Saturday 'Saturday' %></li>
                                 </ul>
 
                                 <div id="days">
@@ -73,7 +73,7 @@
                                     <% if $YearCalendarItems.Events == 0 %>
                                         <div class="event show-for-small-only">
                                             <div class="event-desc">
-                                                <%t Site.NoEvents 'No events this month' %>
+                                                <%t YearCalendar.NoEvents 'No events this month' %>
                                             </div>
                                         </div>
                                     <% end_if %>
