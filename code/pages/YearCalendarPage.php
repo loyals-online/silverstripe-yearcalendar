@@ -52,8 +52,8 @@ class YearCalendarPage extends Page
 
         $agenda = YearCalendarItem::get()
             ->leftJoin('YearCalendarItem_Tags', 'YearCalendarItem.ID = YearCalendarItem_Tags.YearCalendarItemID')
-            ->leftJoin('AgendaTag', 'YearCalendarItem_Tags.AgendaTagID = AgendaTag.ID')
-            ->filter(['AgendaTag.URLSegment' => 'vakantie'])
+            ->leftJoin('YearCalendarItemTag', 'YearCalendarItem_Tags.YearCalendarItemTagID = YearCalendarItemTag.ID')
+            ->filter(['YearCalendarItemTag.URLSegment' => 'vakantie'])
             ->whereAny([
                 '"YearCalendarItem"."To" >= ? AND "YearCalendarItem"."To" <= ?' => [$start->getSqlDateTime(), $end->getSqlDateTime()],
                 '"YearCalendarItem"."From" >= ?'                                => [$start->getSqlDateTime()],
