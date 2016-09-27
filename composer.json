@@ -1,0 +1,32 @@
+{
+  "name": "mediaweb/silverstripe-yearcalendar",
+  "description": "A calendar module to display events throughout the year",
+  "type": "silverstripe-module",
+  "keywords": [
+    "silverstripe",
+    "calendar",
+    "events",
+    "schedule",
+    "module",
+    "cms"
+  ],
+  "license": "GPLv3",
+  "authors": [
+    {
+      "name": "Jan-Pieter van der Poel",
+      "email": "jp@loyals.nl"
+    },
+    {
+      "name": "Martijn Schenk",
+      "email": "martijnschenk@loyals.nl"
+    }
+  ],
+  "require": {
+    "silverstripe/framework": "~3.4",
+    "silverstripe/cms": "~3.4"
+  },
+  "extra": {
+    "installer-name": "yearcalendar"
+  },
+  "target-dir": "yearcalendar"
+}
