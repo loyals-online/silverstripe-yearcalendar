@@ -16,7 +16,7 @@ class YearCalendarItemTag extends DataObject
     public static $summary_fields = [
         'Title' => 'Title',
     ];
-    
+
     private static $default_sort = "SortOrder";
 
     /**
@@ -72,8 +72,8 @@ class YearCalendarItemTag extends DataObject
         $labels = parent::fieldLabels($includerelations);
 
         $labels = array_merge($labels, [
-            'Title' => _t('Admin.YearCalendar.Tag.Title', 'Title'),
-            'Color' => _t('Admin.YearCalendar.Tag.Color', 'Color'),
+            'Title' => _t('YearCalendar.Tag.Title', 'Title'),
+            'Color' => _t('YearCalendar.Tag.Color', 'Color'),
         ]);
 
         return $labels;

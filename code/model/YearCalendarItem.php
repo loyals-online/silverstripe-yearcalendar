@@ -67,7 +67,7 @@ class YearCalendarItem extends DataObject
 
         $fields->insertAfter('Title', TagField::create(
             'Tags',
-            _t('Admin.YearCalendar.Tags', 'Tags'),
+            _t('YearCalendar.Tags', 'Tags'),
             YearCalendarItemTag::get(),
             $this->Tags()
         )
@@ -145,7 +145,7 @@ class YearCalendarItem extends DataObject
         if ($month) {
             $string = str_replace('[|]', _t(
                 sprintf(
-                    'Site.Month.%1$s',
+                    'YearCalendar.Month.%1$s',
                     $this->FromDateTime()
                         ->format('F')
                 ),
@@ -176,7 +176,7 @@ class YearCalendarItem extends DataObject
         if ($month) {
             $string = str_replace('[|]', _t(
                 sprintf(
-                    'Site.Month.%1$s',
+                    'YearCalendar.Month.%1$s',
                     $this->ToDateTime()
                         ->format('F')
                 ),

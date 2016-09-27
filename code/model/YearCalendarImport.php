@@ -31,7 +31,7 @@ class YearCalendarImport extends DataObject
         $fields->addFieldsToTab(
             'Root.Main',
             UploadField::create(
-                "Import", _t("Admin.YearCalendar.Import.Label", "Import")
+                "Import", _t("YearCalendar.Import.Label", "Import")
             )
                 ->setFolderName('imports')
         );
@@ -64,8 +64,8 @@ class YearCalendarImport extends DataObject
         $labels = parent::fieldLabels($includerelations);
 
         $labels = array_merge($labels, [
-            'Name'       => _t('Admin.YearCalendar.Import.Name', 'Name'),
-            'LastEdited' => _t('Admin.YearCalendar.Import.LastEdited', 'Last Edited'),
+            'Name'       => _t('YearCalendar.Import.Name', 'Name'),
+            'LastEdited' => _t('YearCalendar.Import.LastEdited', 'Last Edited'),
         ]);
 
         return $labels;

@@ -12,3 +12,24 @@ nl:
       Friday: Vrijdag
       Saturday: Zaterdag
     NoEvents: 'Geen activiteiten deze maand'
+    Tags: Tags
+    Tag:
+      Title: Titel
+      Color: Kleur
+    Month:
+      January: Januari
+      Ferbuary: Februari
+      March: Maart
+      April: April
+      May: Mei
+      June: Juni
+      July: Juli
+      August: Augustus
+      September: September
+      October: Oktober
+      November: November
+      December: December
+    Import:
+      Label: Importeer
+      Name: Naam
+      LastEdited: 'Laatst bewerkt'

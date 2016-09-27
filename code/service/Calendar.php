@@ -91,7 +91,7 @@ class Calendar
             static::RESPONSE_MONTH          => ArrayData::create([
                 static::RESPONSE_MONTH_TEXT    => _t(
                     sprintf(
-                        'Site.Month.%1$s',
+                        'YearCalendar.Month.%1$s',
                         $calendar->getStart()
                             ->format('F')
                     ),
@@ -107,14 +107,14 @@ class Calendar
             static::RESPONSE_EVENTS         => $calendar->events,
             static::RESPONSE_NEXT_MONTH     => _t(
                 sprintf(
-                    'Site.Month.%1$s',
+                    'YearCalendar.Month.%1$s',
                     $nextMonth->format('F')
                 ),
                 $nextMonth->format('F')
             ),
             static::RESPONSE_PREVIOUS_MONTH => _t(
                 sprintf(
-                    'Site.Month.%1$s',
+                    'YearCalendar.Month.%1$s',
                     $prevMonth->format('F')
                 ),
                 $prevMonth->format('F')

@@ -18,7 +18,7 @@ class YearCalendarPage extends Page
         $end->modify('last day of this month');
         $end->setTimeToDayEnd();
 
-        $agenda = YearCalendarItem::get()
+        $items = YearCalendarItem::get()
             ->whereAny(
                 [
                     '"YearCalendarItem"."To" >= ? AND "YearCalendarItem"."To" <= ?'     => [$start->getSqlDateTime(), $end->getSqlDateTime()],
@@ -26,7 +26,7 @@ class YearCalendarPage extends Page
                 ]
             );
 
-        $calendar = Calendar::create($start, $end, $agenda);
+        $calendar = Calendar::create($start, $end, $items);
 
         Requirements::customScript(sprintf("
            var year = %1\$s;
@@ -46,11 +46,11 @@ class YearCalendarPage extends Page
         $end = new DateTimeHelper(sprintf('%1$s-12-31', $this->year));
         $end->setTimeToDayEnd();
 
-        $agendaTag = YearCalendarItemTag::get()
+        $tag = YearCalendarItemTag::get()
             ->filter(['URLSegment' => 'vakantie'])
             ->first();
 
-        $agenda = YearCalendarItem::get()
+        $items = YearCalendarItem::get()
             ->leftJoin('YearCalendarItem_Tags', 'YearCalendarItem.ID = YearCalendarItem_Tags.YearCalendarItemID')
             ->leftJoin('YearCalendarItemTag', 'YearCalendarItem_Tags.YearCalendarItemTagID = YearCalendarItemTag.ID')
             ->filter(['YearCalendarItemTag.URLSegment' => 'vakantie'])
@@ -59,7 +59,7 @@ class YearCalendarPage extends Page
                 '"YearCalendarItem"."From" >= ?'                                => [$start->getSqlDateTime()],
             ]);
 
-        return $agenda;
+        return $items;
     }
 
     public function setDate($month, $year)
