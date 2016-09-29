@@ -100,13 +100,13 @@ class YearCalendarImport extends DataObject
         $ext = $this->getExtensionForFilePath($filepath);
         switch ($ext) {
             case 'csv':
-                $Reader = new PHPExcel\Reader\CSV();
+                $Reader = new PHPExcel_Reader_CSV();
                 $Reader->setDelimiter(';');
                 $Excel = $Reader->load($filepath);
                 break;
             case 'xls':
             case 'xlsx':
-                $Excel = PHPExcel\IOFactory::load($filepath);
+                $Excel = PHPExcel_IOFactory::load($filepath);
                 break;
         }
 
@@ -133,11 +133,11 @@ class YearCalendarImport extends DataObject
     /**
      *
      *
-     * @param \PHPExcel\Worksheet $sheet
+     * @param \PHPExcel_Worksheet $sheet
      *
      * @return SimpleProduct
      */
-    protected function ProductFactory(\PHPExcel\Worksheet $sheet)
+    protected function ProductFactory(\PHPExcel_Worksheet $sheet)
     {
         $product = null;
         $rows = $sheet->getHighestRow();
@@ -202,21 +202,21 @@ class YearCalendarImport extends DataObject
     /**
      * Create a DateTime object from two strings representing date and time
      *
-     * @param PHPExcel\Cell $date dd-mm-[yy]yy
-     * @param PHPExcel\Cell $time hh:ii[:ss]
+     * @param PHPExcel_Cell $date dd-mm-[yy]yy
+     * @param PHPExcel_Cell $time hh:ii[:ss]
      *
      * @return \DateTimeHelper
      */
-    protected function createDateTimeFromCells(PHPExcel\Cell $dateCell, PHPExcel\Cell $timeCell)
+    protected function createDateTimeFromCells(PHPExcel_Cell $dateCell, PHPExcel_Cell $timeCell)
     {
-        $date = date('d/m/Y', PHPExcel\Shared\Date::ExcelToPHP($dateCell->getValue()));
+        $date = date('d/m/Y', PHPExcel_Shared_Date::ExcelToPHP($dateCell->getValue()));
 
         @list ($day, $month, $year) = explode('/', $date);
         if (strlen($year) < 4) {
             $year = sprintf('20%1$d', $year);
         }
 
-        $time = PHPExcel\Style\NumberFormat::toFormattedString($timeCell->getCalculatedValue(), 'hh:mm:ss');
+        $time = PHPExcel_Style_NumberFormat::toFormattedString($timeCell->getCalculatedValue(), 'hh:mm:ss');
         // falback for empty time fields
         if (!$time) {
             $time = '00:00:00';
