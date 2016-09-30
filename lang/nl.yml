@@ -1,6 +1,8 @@
 nl:
+  YearCalendarAdmin:
+    MENUTITLE: Jaarkalender
   YearCalendar:
-    YearCalendar: 'Jaaroverzicht'
+    YearCalendar: 'Jaarkalender'
     Holidays: 'Vakanties'
     CurrentMonth: 'Deze maand'
     Days:
@@ -12,7 +14,7 @@ nl:
       Friday: Vrijdag
       Saturday: Zaterdag
     NoEvents: 'Geen activiteiten deze maand'
-    Tags: Tags
+    Tags: Labels
     Tag:
       Title: Titel
       Color: Kleur
@@ -33,3 +35,22 @@ nl:
       Label: Importeer
       Name: Naam
       LastEdited: 'Laatst bewerkt'
+  YearCalendarItem:
+    SINGULARNAME: 'Kalender-item'
+    PLURALNAME: 'Kalender-items'
+    db_Title: 'Titel'
+    db_From: 'Van'
+    db_To: 'Tot'
+    db_WholeDay: 'Hele dag'
+    db_NonFeatured: 'Niet uitgelicht'
+    many_many_Tags: 'Labels'
+  YearCalendarItemTag:
+    SINGULARNAME: 'Label'
+    PLURALNAME: 'Labels'
+    db_Title: 'Titel'
+    db_URLSegment: 'URL-segment'
+    db_Color: 'Kleur'
+    db_SortOrder: 'Sorteer-volgorde'
+  YearCalendarImport:
+    SINGULARNAME: 'Import'
+    PLURALNAME: 'Imports'
