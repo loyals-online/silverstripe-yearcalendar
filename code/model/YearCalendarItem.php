@@ -28,29 +28,6 @@ class YearCalendarItem extends DataObject
     ];
 
     /**
-     * Dynamic field labels
-     *
-     * @param bool $includerelations
-     *
-     * @return array|string
-     */
-    public function fieldLabels($includerelations = true)
-    {
-        $labels = parent::fieldLabels($includerelations);
-
-        $labels = array_merge($labels, [
-            'Title'       => _t('Admin.YearCalendar.Title', 'Title'),
-            'From'        => _t('Admin.YearCalendarFrom', 'From'),
-            'To'          => _t('Admin.YearCalendar.To', 'To'),
-            'WholeDay'    => _t('Admin.YearCalendar.WholeDay', 'WholeDay'),
-            'Content'     => _t('Admin.YearCalendar.Content', 'Content'),
-            'NonFeatured' => _t('Admin.YearCalendar.NonFeatured', 'Not featured'),
-        ]);
-
-        return $labels;
-    }
-
-    /**
      * Modify which fields are used
      *
      * @return \FieldList

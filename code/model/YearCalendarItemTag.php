@@ -61,25 +61,6 @@ class YearCalendarItemTag extends DataObject
     }
 
     /**
-     * Dynamic field labels
-     *
-     * @param bool $includerelations
-     *
-     * @return array|string
-     */
-    public function fieldLabels($includerelations = true)
-    {
-        $labels = parent::fieldLabels($includerelations);
-
-        $labels = array_merge($labels, [
-            'Title' => _t('YearCalendar.Tag.Title', 'Title'),
-            'Color' => _t('YearCalendar.Tag.Color', 'Color'),
-        ]);
-
-        return $labels;
-    }
-
-    /**
      * Generate a URL segment based on the title provided.
      *
      * If {@link Extension}s wish to alter URL segment generation, they can do so by defining
