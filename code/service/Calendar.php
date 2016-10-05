@@ -244,6 +244,12 @@ class Calendar
                     $return->push($item);
                 }
             } elseif ($day->isBetween($item->FromDateTime(), $item->ToDateTime())) {
+                if ($day->isDateEqualTo($item->FromDateTime())) {
+                    $item->FirstDay = true;
+                }
+                if ($day->isDateEqualTo($item->ToDateTime())) {
+                    $item->LastDay = true;
+                }
                 ++$this->events;
                 $return->push($item);
             }
