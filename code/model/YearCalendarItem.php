@@ -41,6 +41,7 @@ class YearCalendarItem extends DataObject
             'Tags',
             'From',
             'To',
+            'WholeDay',
             'NonFeatured',
             'ExcludeWeekend',
         ]);
@@ -57,11 +58,11 @@ class YearCalendarItem extends DataObject
         $fields->fieldByName('Root')
             ->setTemplate('TabSet_holder');
 
-        $fromField = new DatetimeField("From", "From");
+        $fromField = new DatetimeField('From', _t('YearCalendarItem.db_From', 'From'));
         $fromField->getDateField()
             ->setConfig('showcalendar', true);
 
-        $toField = new DatetimeField("To", "To");
+        $toField = new DatetimeField('To', _t('YearCalendarItem.db_To', 'To'));
         $toField->getDateField()
             ->setConfig('showcalendar', true);
 
@@ -69,9 +70,12 @@ class YearCalendarItem extends DataObject
         $fields->insertAfter($fromField, 'Tags');
 
         $fields->addFieldsToTab('Root.Main', [
-            CheckboxField::create('NonFeatured', _t('YearCalendarItem.NonFeatured', 'Not featured')),
-            CheckboxField::create('ExcludeWeekend', _t('YearCalendarItem.ExcludeWeekend', 'Exclude weekend')),
-        ], 'Content'
+            FieldGroup::create(
+                CheckboxField::create('WholeDay', _t('YearCalendarItem.db_WholeDay', 'Whole Day')),
+                CheckboxField::create('NonFeatured', _t('YearCalendarItem.db_NonFeatured', 'Not featured')),
+                CheckboxField::create('ExcludeWeekend', _t('YearCalendarItem.db_ExcludeWeekend', 'Exclude weekend')))
+                ->setTitle(_t('YearCalendarItem.Options', 'Options')),
+        ], 'Tags'
         );
 
         return $fields;

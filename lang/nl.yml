@@ -43,8 +43,9 @@ nl:
     db_To: 'Tot'
     db_WholeDay: 'Hele dag'
     db_NonFeatured: 'Niet uitgelicht'
-    de_ExcludeWeekend: 'Weekend niet weergeven'
+    db_ExcludeWeekend: 'Weekend niet weergeven'
     many_many_Tags: 'Labels'
+    options: 'Opties'
   YearCalendarItemTag:
     SINGULARNAME: 'Label'
     PLURALNAME: 'Labels'
