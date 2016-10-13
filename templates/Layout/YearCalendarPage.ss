@@ -48,27 +48,29 @@
                                         <% if $First %>
                                         <ul class="days" data-equalizer data-options="equalize_on_stack: true">
                                         <% end_if %>
-                                        <li class="day<% if not Events.Count() %> empty<% end_if %><% if not $Date %> no-date<% end_if %>" data-equalizer-watch>
-                                            <% if $Date %>
-                                                <div class="date">$Date</div>
-                                            <% end_if %>
-                                            <% if $Events.Count() %>
-                                                <% loop $Events %>
-                                                    <div class="event<% loop $Tags %> $URLSegment<% end_loop %>" style="$Tags.first().CssColorString();">
-                                                        <div class="event-desc">
-                                                            $Title
-                                                        </div>
-                                                    </div>
-                                                <% end_loop %>
-                                            <% end_if %>
-                                        </li>
-                                        <% if $MultipleOf(7) %>
-                                        </ul>
-                                        <ul class="days" data-equalizer data-options="equalize_on_stack: true">
+                                    <li class="day<% if not Events.Count() %> empty<% end_if %><% if not $Date %> no-date<% end_if %>" data-equalizer-watch>
+                                        <% if $Date %>
+                                            <div class="date">$Date</div>
                                         <% end_if %>
-                                        <% if $Last %>
-                                        </ul>
-                                        <% end_if %>
+                                        <% if $Events.Count() %>
+                                            <% loop $Events.Sort('From ASC') %>
+                                        <div class="event<% loop $Tags %> $URLSegment<% end_loop %><% if $WholeDay && not $FirstDay && not $LastDay %> wholeday<% end_if %><% if $FirstDay && not $LastDay %> firstday<% end_if %><% if $LastDay && not $FirstDay %> lastday<% end_if%><% if $NoWeekend %> noweekend<% end_if %>"
+                                             style="$Tags.first().CssColorString();">
+                                        <div class="event-desc<% if $NoWeekend %> noweekend<% end_if %>">
+                                            <% if $From.Format(H:i) != '00:00' &&  $From.Format(H:i) != '23:59' && not $WholeDay %><strong>$From.Format(H
+                                            :i)<% if $To.Format(H:i) != '00:00' &&  $To.Format(H:i) != '23:59' &&  $To.Format(H:i) != $From.Format(H:i) %> - $To.Format(H:i)<% end_if %></strong> <% end_if %>$Title
+                                    </div>
+                                    </div>
+                                    <% end_loop %>
+                                    <% end_if %>
+                                </li>
+                                    <% if $MultipleOf(7) %>
+                                    </ul>
+                                    <ul class="days" data-equalizer data-options="equalize_on_stack: true">
+                                    <% end_if %>
+                                    <% if $Last %>
+                                    </ul>
+                                    <% end_if %>
                                     <% end_loop %>
                                     <% if $YearCalendarItems.Events == 0 %>
                                         <div class="event show-for-small-only">

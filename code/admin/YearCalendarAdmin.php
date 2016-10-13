@@ -19,6 +19,13 @@ class YearCalendarAdmin extends ModelAdmin
         $listfield = $form->Fields()
             ->fieldByName($this->modelClass);
 
+        if ($this->modelClass == 'YearCalendarItem') {
+            /** @var GridFieldConfig $config */
+            $config = $listfield->getConfig();
+            $config->removeComponentsByType('GridFieldExportButton');
+            $config->addComponent(new GridFieldXLSXExportButton());
+        }
+
         if ($this->modelClass == 'YearCalendarItemTag') {
             $listfield->getConfig()
                 ->addComponent($sort = new GridFieldOrderableRows('SortOrder'));

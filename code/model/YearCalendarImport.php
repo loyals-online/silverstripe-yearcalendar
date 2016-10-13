@@ -3,7 +3,7 @@
 class YearCalendarImport extends DataObject
 {
     private static $singular_name = 'Year Calender Import';
-    private static $plural_name = 'Year Calender Imports';
+    private static $plural_name   = 'Year Calender Imports';
 
     const HEADERCELL = 'Titel';
 
@@ -80,7 +80,7 @@ class YearCalendarImport extends DataObject
     {
         if ($this->ImportID) {
             /** @var File $Import */
-            $Import = $this->Import();
+            $Import   = $this->Import();
             $filePath = $Import->getFilename();
             $filePath = explode(DIRECTORY_SEPARATOR, $filePath);
 
@@ -140,7 +140,7 @@ class YearCalendarImport extends DataObject
     protected function ProductFactory(\PHPExcel_Worksheet $sheet)
     {
         $product = null;
-        $rows = $sheet->getHighestRow();
+        $rows    = $sheet->getHighestRow();
 
         for ($i = 1; $i <= $rows; $i++) {
             $Title = $sheet->getCell(sprintf('A%1$d', $i))
@@ -184,11 +184,14 @@ class YearCalendarImport extends DataObject
             $Tags = $this->getTagsByCell($sheet->getCell(sprintf('H%1$d', $i))
                 ->getValue());
 
-            $yearcalendaritem->Title = $Title;
-            $yearcalendaritem->From = $From->format('Y-m-d H:i:s');
-            $yearcalendaritem->To = $To->format('Y-m-d H:i:s');
+            $yearcalendaritem->Title    = $Title;
+            $yearcalendaritem->From     = $From->format('Y-m-d H:i:s');
+            $yearcalendaritem->To       = $To->format('Y-m-d H:i:s');
+            if ($yearcalendaritem->To < $yearcalendaritem->From) {
+                $yearcalendaritem->To = $yearcalendaritem->From;
+            }
             $yearcalendaritem->WholeDay = $WholeDay;
-            $yearcalendaritem->Content = $Content;
+            $yearcalendaritem->Content  = $Content;
 
             if ($Tags->count()) {
                 $yearcalendaritem->Tags()
@@ -222,6 +225,7 @@ class YearCalendarImport extends DataObject
             $time = '00:00:00';
         }
         $dateTime = new DateTimeHelper(sprintf('%1$d-%2$d-%3$d %4$s', $year, $month, $day, $time));
+
         return $dateTime;
     }
 
@@ -283,7 +287,7 @@ class YearCalendarImport extends DataObject
                 ->first();
 
             if (!$Tag) {
-                $Tag = new YearCalendarItemTag();
+                $Tag        = new YearCalendarItemTag();
                 $Tag->Title = $tag;
                 $Tag->write();
             }
@@ -303,7 +307,7 @@ class YearCalendarImport extends DataObject
      */
     function canCreate($member = null)
     {
-        return !(bool)self::get()
+        return !(bool) self::get()
             ->count();
     }
 }

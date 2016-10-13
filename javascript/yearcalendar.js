@@ -47,6 +47,7 @@ $(document).on('click', 'button.previous', function (e) {
 $(document).on('click', 'button.current', function (e) {
     var now = new Date();
     month = now.getMonth() + 1;
+    year  = now.getFullYear();
     loadCalendar();
 });
 
