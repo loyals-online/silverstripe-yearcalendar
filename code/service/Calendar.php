@@ -240,10 +240,8 @@ class Calendar
         foreach ($this->agenda as $item) {
             if (!$item->WholeDay) {
                 if ($day->isDateEqualTo($item->FromDateTime())) {
-                    if (!(($day->format('N') >= 6) && ($item->ExcludeWeekend))) {
-                        ++$this->events;
-                        $return->push($item);
-                    }
+                    ++$this->events;
+                    $return->push($item);
                 }
             } elseif ($day->isBetween($item->FromDateTime(), $item->ToDateTime())) {
                 if ($day->isDateEqualTo($item->FromDateTime())) {
@@ -251,6 +249,9 @@ class Calendar
                 }
                 if ($day->isDateEqualTo($item->ToDateTime())) {
                     $item->LastDay = true;
+                }
+                if (($day->format('N') >= 6) && ($item->ExcludeWeekend)) {
+                    $item->NoWeekend = true;
                 }
                 ++$this->events;
                 $return->push($item);
