@@ -1,0 +1,8 @@
+---
+Name: yearcalendarroutes
+After: framework/routes#coreroutes
+---
+
+Director:
+  rules:
+    '/ical': 'iCalController'

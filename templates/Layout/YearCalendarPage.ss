@@ -27,7 +27,10 @@
 
                         <div id="calendar-wrap">
                             <header id="date">
-                                <h1>$YearCalendarItems.Month.Text $YearCalendarItems.Year</h1>
+                                <h1>
+                                    $YearCalendarItems.Month.Text $YearCalendarItems.Year
+                                    <a class="ical" href="/ical">Download iCal<img class="" src="/yearcalendar/images/calendar.svg"> </a>
+                                </h1>
                                 <button class="previous tiny left">$YearCalendarItems.PreviousMonth</button>
                                 <button class="current tiny"><%t YearCalendar.CurrentMonth 'This month' %></button>
                                 <button class="next tiny right">$YearCalendarItems.NextMonth</button>
@@ -57,8 +60,7 @@
                                         <div class="event<% loop $Tags %> $URLSegment<% end_loop %><% if $WholeDay && not $FirstDay && not $LastDay %> wholeday<% end_if %><% if $FirstDay && not $LastDay %> firstday<% end_if %><% if $LastDay && not $FirstDay %> lastday<% end_if%><% if $NoWeekend %> noweekend<% end_if %>"
                                              style="$Tags.first().CssColorString();">
                                         <div class="event-desc<% if $NoWeekend %> noweekend<% end_if %>">
-                                            <% if $From.Format(H:i) != '00:00' &&  $From.Format(H:i) != '23:59' && not $WholeDay %><strong>$From.Format(H
-                                            :i)<% if $To.Format(H:i) != '00:00' &&  $To.Format(H:i) != '23:59' &&  $To.Format(H:i) != $From.Format(H:i) %> - $To.Format(H:i)<% end_if %></strong> <% end_if %>$Title
+                                            <% if $From.Format(H:i) != '00:00' &&  $From.Format(H:i) != '23:59' && not $WholeDay %><strong>$From.Format(H:i)<% if $To.Format(H:i) != '00:00' &&  $To.Format(H:i) != '23:59' &&  $To.Format(H:i) != $From.Format(H:i) %> - $To.Format(H:i)<% end_if %></strong> <% end_if %>$Title
                                     </div>
                                     </div>
                                     <% end_loop %>
