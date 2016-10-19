@@ -21,9 +21,9 @@ class YearCalendarPage extends Page
         $items = YearCalendarItem::get()
             ->whereAny(
                 [
-                    '"Agenda"."From" < ? AND "Agenda"."To" > ?' => [$start->getSqlDateTime(), $start->getSqlDateTime()],
-                    '"Agenda"."To" > ? AND "Agenda"."From" < ?' => [$end->getSqlDateTime(), $end->getSqlDateTime()],
-                    '"Agenda"."To" >= ? AND "Agenda"."From" <= ?' => [$start->getSqlDateTime(), $end->getSqlDateTime()],
+                    '"YearCalendarItem"."From" < ? AND "YearCalendarItem"."To" > ?' => [$start->getSqlDateTime(), $start->getSqlDateTime()],
+                    '"YearCalendarItem"."To" > ? AND "YearCalendarItem"."From" < ?' => [$end->getSqlDateTime(), $end->getSqlDateTime()],
+                    '"YearCalendarItem"."To" >= ? AND "YearCalendarItem"."From" <= ?' => [$start->getSqlDateTime(), $end->getSqlDateTime()],
                 ]
             );
 

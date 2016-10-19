@@ -6,7 +6,7 @@ class IcalController extends Controller
     {
         $now = new DateTimeHelper();
 
-        $agenda = Agenda::get()
+        $agenda = YearCalendarItem::get()
             ->filterAny([
                 'From:GreaterThanOrEqual' => $now->getSqlDateTime(),
                 'To:GreaterThanOrEqual'   => $now->getSqlDateTime(),

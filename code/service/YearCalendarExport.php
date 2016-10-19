@@ -48,7 +48,7 @@ class YearCalendarExport
                 ->setAutoSize(false)
                 ->setWidth((float) $size + 0.83); // For some reason Excel eats up .83 of the columns width, so 40 would become 39.17
         }
-        $agenda = Agenda::get()
+        $agenda = YearCalendarItem::get()
             ->sort('From ASC');
 
         $row = 2;
