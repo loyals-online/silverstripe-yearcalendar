@@ -46,7 +46,9 @@ class YearCalendarItem extends DataObject
             'ExcludeWeekend',
         ]);
 
-        $fields->insertAfter('Title', TagField::create(
+        $fields->addFieldsToTab('Root.Translations', $this->getTranslatableTabSet());
+
+        $fields->addFieldToTab('Root.Main', TagField::create(
             'Tags',
             _t('YearCalendar.Tags', 'Tags'),
             YearCalendarItemTag::get(),
@@ -201,5 +203,4 @@ class YearCalendarItem extends DataObject
 
         return $articles;
     }
-
 }

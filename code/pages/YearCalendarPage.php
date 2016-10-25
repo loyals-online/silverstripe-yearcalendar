@@ -10,6 +10,35 @@ class YearCalendarPage extends Page
 
     protected $year;
 
+    private static $many_many = [
+        'Tags' => 'YearCalendarItemTag',
+    ];
+
+    protected static $frontendLoaded = false;
+
+    public function getCMSFields()
+    {
+        $fields = parent::getCMSFields();
+
+        $fields->removeByName([
+            'Tags',
+        ]);
+
+        $fields->insertBefore(
+            'Content',
+            TagField::create(
+                'Tags',
+                _t('YearCalendar.Tags', 'Tags'),
+                YearCalendarItemTag::get(),
+                $this->Tags()
+            )
+                ->setCanCreate(false)
+                ->setShouldLazyLoad(true)
+        );
+
+        return $fields;
+    }
+
     public function YearCalendarItems()
     {
         $start = new DateTimeHelper(sprintf('%1$s-%2$s-01', $this->year, $this->month));
@@ -19,23 +48,28 @@ class YearCalendarPage extends Page
         $end->setTimeToDayEnd();
 
         $items = YearCalendarItem::get()
+            ->filter([
+                'Tags.ID' => $this->Tags()->map('ID', 'ID')->toArray()
+            ])
             ->whereAny(
                 [
-                    '"YearCalendarItem"."From" < ? AND "YearCalendarItem"."To" > ?' => [$start->getSqlDateTime(), $start->getSqlDateTime()],
-                    '"YearCalendarItem"."To" > ? AND "YearCalendarItem"."From" < ?' => [$end->getSqlDateTime(), $end->getSqlDateTime()],
+                    '"YearCalendarItem"."From" < ? AND "YearCalendarItem"."To" > ?'   => [$start->getSqlDateTime(), $start->getSqlDateTime()],
+                    '"YearCalendarItem"."To" > ? AND "YearCalendarItem"."From" < ?'   => [$end->getSqlDateTime(), $end->getSqlDateTime()],
                     '"YearCalendarItem"."To" >= ? AND "YearCalendarItem"."From" <= ?' => [$start->getSqlDateTime(), $end->getSqlDateTime()],
                 ]
             );
 
         $calendar = Calendar::create($start, $end, $items);
 
-        Requirements::customScript(sprintf("
+        if (!static::$frontendLoaded) {
+            Requirements::customScript(sprintf("
            var year = %1\$s;
            var month = %2\$s;
        ",
-            $calendar->Year,
-            $calendar->Month->Numeric));
-
+                $calendar->Year,
+                $calendar->Month->Numeric));
+            static::$frontendLoaded = true;
+        }
         return $calendar;
 
     }
@@ -64,11 +98,6 @@ class YearCalendarPage extends Page
         $this->month = $month;
         $this->year  = $year;
     }
-
-    public function getTags()
-    {
-        return YearCalendarItemTag::get();
-    }
 }
 
 /**
@@ -77,6 +106,10 @@ class YearCalendarPage extends Page
  */
 class YearCalendarPage_Controller extends Page_Controller
 {
+    private static $allowed_actions = [
+        'ical',
+    ];
+
     public function init()
     {
         parent::init();
@@ -87,5 +120,42 @@ class YearCalendarPage_Controller extends Page_Controller
             ->getVar('year') ?: date('Y');
         $this->data()
             ->setDate($month, $year);
+    }
+
+    public function ical()
+    {
+        $now = new DateTimeHelper();
+
+        $agenda = YearCalendarItem::get()
+            ->filterAny([
+                'From:GreaterThanOrEqual' => $now->getSqlDateTime(),
+                'To:GreaterThanOrEqual'   => $now->getSqlDateTime(),
+            ]);
+
+        $ical = new Sabre\VObject\Component\VCalendar([
+            'PRODID'       => 'JaarKalender',
+            'X-WR-CALNAME' => SiteConfig::current_site_config()->Title . ' Jaarkalender',
+        ]);
+
+        /** @var Agenda $item */
+        foreach ($agenda as $item) {
+
+            $event = $ical->createComponent('VEVENT');
+            $ical->add($event);
+
+            $event->SUMMARY = $item->Title;
+            $event->UID     = sprintf('%1$s-%2$s@%3$s', singleton('SiteTree')->generateURLSegment($item->Title), $item->ID, $_SERVER['SERVER_NAME']);
+            $event->DTSTAMP = $item->FromDateTime()
+                ->setTimezone(new DateTimeZone("UTC"))
+                ->format('Ymd\THis\Z');
+            $event->DTSTART = $item->FromDateTime()
+                ->setTimezone(new DateTimeZone("UTC"))
+                ->format('Ymd\THis\Z');
+            $event->DTEND   = $item->ToDateTime()
+                ->setTimezone(new DateTimeZone("UTC"))
+                ->format('Ymd\THis\Z');
+        }
+
+        return SS_HTTPRequest::send_file($ical->serialize(), 'calendar.ics', 'text/calendar; charset=utf-8');
     }
 }

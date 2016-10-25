@@ -1,3 +1,11 @@
 Page_Controller:
   extensions:
     - YearCalendarControllerInit
+
+YearCalendarItem:
+  extensions:
+    - TranslatableDataObject
+
+YearCalendarItemTag:
+  extensions:
+    - TranslatableDataObject

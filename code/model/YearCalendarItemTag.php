@@ -27,17 +27,22 @@ class YearCalendarItemTag extends DataObject
     {
         parent::onBeforeWrite();
 
-        if (!$this->URLSegment && $this->Title) {
-            $this->URLSegment = $this->generateURLSegment($this->Title);
-        } else {
-            if ($this->isChanged('URLSegment', 2)) {
-                // Do a strict check on change level, to avoid double encoding caused by
-                // bogus changes through forceChange()
-                $filter           = URLSegmentFilter::create();
-                $this->URLSegment = $filter->filter($this->URLSegment);
-                // If after sanitising there is no URLSegment, give it a reasonable default
-                if (!$this->URLSegment) {
-                    $this->URLSegment = "tag-$this->ID";
+        $URLSegment = $this->getLocalizedFieldnames('URLSegment');
+        $Title      = $this->getLocalizedFieldnames('Title');
+
+        foreach($URLSegment as $index => $fieldName) {
+            if (!$this->$fieldName && $this->$Title[$index]) {
+                $this->$fieldName = $this->generateURLSegment($this->$Title[$index]);
+            } else {
+                if ($this->isChanged($fieldName, 2)) {
+                    // Do a strict check on change level, to avoid double encoding caused by
+                    // bogus changes through forceChange()
+                    $filter           = URLSegmentFilter::create();
+                    $this->$fieldName = $filter->filter($this->$fieldName);
+                    // If after sanitising there is no URLSegment, give it a reasonable default
+                    if (!$this->$fieldName) {
+                        $this->$fieldName = "tag-$this->ID";
+                    }
                 }
             }
         }
@@ -54,8 +59,12 @@ class YearCalendarItemTag extends DataObject
 
         $fields->removeByName([
             'URLSegment',
-            'SortOrder'
+            'SortOrder',
         ]);
+
+        $fields->addFieldsToTab('Root.Translations', $this->getTranslatableTabSet());
+
+        $fields->removeByName($this->getLocalizedFieldnames('URLSegment'));
 
         return $fields;
     }
@@ -136,7 +145,18 @@ class YearCalendarItemTag extends DataObject
                 $this->RgbaColorString()
             );
         }
+
         return null;
     }
 
+    protected function getLocalizedFieldnames($field)
+    {
+        $fieldnames = [];
+        foreach (SiteLocaleConfig::inst()
+                     ->getAllowedLocales() as $locale) {
+            array_push($fieldnames, TranslatableDataObject::localized_field($field, $locale));
+        }
+
+        return $fieldnames;
+    }
 }

@@ -29,7 +29,7 @@
                             <header id="date">
                                 <h1>
                                     $YearCalendarItems.Month.Text $YearCalendarItems.Year
-                                    <a class="ical" href="/ical">Download iCal<img class="" src="/yearcalendar/images/calendar.svg"> </a>
+                                    <a class="ical" href="$Link('ical')">Download iCal<img class="" src="/yearcalendar/images/calendar.svg"> </a>
                                 </h1>
                                 <button class="previous tiny left">$YearCalendarItems.PreviousMonth</button>
                                 <button class="current tiny"><%t YearCalendar.CurrentMonth 'This month' %></button>
