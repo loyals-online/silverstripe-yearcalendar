@@ -48,9 +48,6 @@ class YearCalendarPage extends Page
         $end->setTimeToDayEnd();
 
         $items = YearCalendarItem::get()
-            ->filter([
-                'Tags.ID' => $this->Tags()->map('ID', 'ID')->toArray()
-            ])
             ->whereAny(
                 [
                     '"YearCalendarItem"."From" < ? AND "YearCalendarItem"."To" > ?'   => [$start->getSqlDateTime(), $start->getSqlDateTime()],
@@ -58,6 +55,17 @@ class YearCalendarPage extends Page
                     '"YearCalendarItem"."To" >= ? AND "YearCalendarItem"."From" <= ?' => [$start->getSqlDateTime(), $end->getSqlDateTime()],
                 ]
             );
+
+        // if we have Tags, filter items by them
+        if ($this->Tags()
+            ->Count()
+        ) {
+            $items = $items->filter([
+                'Tags.ID' => $this->Tags()
+                    ->map('ID', 'ID')
+                    ->toArray(),
+            ]);
+        }
 
         $calendar = Calendar::create($start, $end, $items);
 
@@ -70,6 +78,7 @@ class YearCalendarPage extends Page
                 $calendar->Month->Numeric));
             static::$frontendLoaded = true;
         }
+
         return $calendar;
 
     }
@@ -131,6 +140,17 @@ class YearCalendarPage_Controller extends Page_Controller
                 'From:GreaterThanOrEqual' => $now->getSqlDateTime(),
                 'To:GreaterThanOrEqual'   => $now->getSqlDateTime(),
             ]);
+
+        // if we have Tags, filter items by them
+        if ($this->Tags()
+            ->Count()
+        ) {
+            $agenda = $agenda->filter([
+                'Tags.ID' => $this->Tags()
+                    ->map('ID', 'ID')
+                    ->toArray(),
+            ]);
+        }
 
         $ical = new Sabre\VObject\Component\VCalendar([
             'PRODID'       => 'JaarKalender',
