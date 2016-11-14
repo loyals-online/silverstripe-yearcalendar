@@ -25,7 +25,7 @@ class YearCalendarAdmin extends ModelAdmin
             $config->removeComponentsByType('GridFieldExportButton');
             $config->addComponent(new GridFieldXLSXExportButton());
             $config->addComponent(new GridFieldFilterHeader());
-            $config->getComponentByType('GridFieldPaginator')->setItemsPerPage(150);
+            $config->getComponentByType('GridFieldPaginator')->setItemsPerPage(Config::inst()->get('YearCalendarAdmin', 'itemsPerPage'));
         }
 
         if ($this->modelClass == 'YearCalendarItemTag') {

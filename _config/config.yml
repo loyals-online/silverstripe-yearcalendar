@@ -9,3 +9,6 @@ YearCalendarItem:
 YearCalendarItemTag:
   extensions:
     - TranslatableDataObject
+
+YearCalendarAdmin:
+  itemsPerPage: 150
