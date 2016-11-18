@@ -38,6 +38,7 @@ class YearCalendarItem extends DataObject
         $fields = parent::getCMSFields();
 
         $fields->removeByName([
+            'Title',
             'Tags',
             'From',
             'To',
