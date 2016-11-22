@@ -58,6 +58,7 @@ class YearCalendarItemTag extends DataObject
         $fields = parent::getCMSFields();
 
         $fields->removeByName([
+            'Title',
             'URLSegment',
             'SortOrder',
         ]);
