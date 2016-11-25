@@ -2,6 +2,9 @@
 
 class YearCalendarItemTag extends DataObject
 {
+    /**
+     * @inheritdoc
+     */
     private static $db = [
         'Title'      => 'Varchar',
         'URLSegment' => 'Varchar',
@@ -9,19 +12,27 @@ class YearCalendarItemTag extends DataObject
         'SortOrder'  => 'Int',
     ];
 
+    /**
+     * @inheritdoc
+     */
     private static $defaults = [
         'Color' => '666666100',
     ];
 
+    /**
+     * @inheritdoc
+     */
     public static $summary_fields = [
         'Title' => 'Title',
     ];
 
+    /**
+     * @inheritdoc
+     */
     private static $default_sort = "SortOrder";
 
     /**
-     * Do stuff before writing to database
-     *
+     * @inheritdoc
      */
     public function onBeforeWrite()
     {
@@ -49,9 +60,7 @@ class YearCalendarItemTag extends DataObject
     }
 
     /**
-     * Modify which fields are used
-     *
-     * @return \FieldList
+     * @inheritdoc
      */
     public function getCMSFields()
     {
@@ -66,6 +75,8 @@ class YearCalendarItemTag extends DataObject
         $fields->addFieldsToTab('Root.Translations', $this->getTranslatableTabSet());
 
         $fields->removeByName($this->getLocalizedFieldnames('URLSegment'));
+
+        $this->extend('modifyCMSFields', $fields);
 
         return $fields;
     }
@@ -150,6 +161,13 @@ class YearCalendarItemTag extends DataObject
         return null;
     }
 
+    /**
+     * Retrieve the localized field names
+     *
+     * @param $field
+     *
+     * @return array
+     */
     protected function getLocalizedFieldnames($field)
     {
         $fieldnames = [];

@@ -6,16 +6,37 @@
  */
 class YearCalendarPage extends Page
 {
+    /**
+     * Current month
+     *
+     * @var string
+     */
     protected $month;
 
+    /**
+     * Current year
+     *
+     * @var string
+     */
     protected $year;
 
+    /**
+     * @inheritdoc
+     */
     private static $many_many = [
         'Tags' => 'YearCalendarItemTag',
     ];
 
+    /**
+     * Flag: are the front-end scripts loaded
+     *
+     * @var bool
+     */
     protected static $frontendLoaded = false;
 
+    /**
+     * @inheritdoc
+     */
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
@@ -36,9 +57,16 @@ class YearCalendarPage extends Page
                 ->setShouldLazyLoad(true)
         );
 
+        $this->extend('modifyCMSFields', $fields);
+
         return $fields;
     }
 
+    /**
+     * Retrieve all YearCalendarItems for this page
+     *
+     * @return \ArrayData
+     */
     public function YearCalendarItems()
     {
         $start = new DateTimeHelper(sprintf('%1$s-%2$s-01', $this->year, $this->month));
@@ -83,6 +111,11 @@ class YearCalendarPage extends Page
 
     }
 
+    /**
+     * Retrieve everything marked as a holiday
+     *
+     * @return mixed
+     */
     public function Holidays()
     {
         $start = new DateTimeHelper(sprintf('%1$s-01-01', $this->year));
@@ -102,6 +135,12 @@ class YearCalendarPage extends Page
         return $items;
     }
 
+    /**
+     * Set the current date
+     *
+     * @param $month
+     * @param $year
+     */
     public function setDate($month, $year)
     {
         $this->month = $month;
@@ -115,10 +154,16 @@ class YearCalendarPage extends Page
  */
 class YearCalendarPage_Controller extends Page_Controller
 {
+    /**
+     * @inheritdoc
+     */
     private static $allowed_actions = [
         'ical',
     ];
 
+    /**
+     * @inheritdoc
+     */
     public function init()
     {
         parent::init();
@@ -131,6 +176,11 @@ class YearCalendarPage_Controller extends Page_Controller
             ->setDate($month, $year);
     }
 
+    /**
+     * ical action
+     *
+     * @return mixed
+     */
     public function ical()
     {
         $now = new DateTimeHelper();

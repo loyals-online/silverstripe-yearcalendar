@@ -2,16 +2,33 @@
 
 class YearCalendarAdmin extends ModelAdmin
 {
+    /**
+     * @inheritdoc
+     */
     private static $managed_models = [
         'YearCalendarItem',
         'YearCalendarItemTag',
         'YearCalendarImport',
     ];
 
+    /**
+     * @inheritdoc
+     */
     private static $url_segment = 'yearcalendar';
+
+    /**
+     * @inheritdoc
+     */
     private static $menu_title  = 'Year Calendar';
+
+    /**
+     * @inheritdoc
+     */
     private static $menu_icon   = 'yearcalendar/images/calendar-icon.png';
 
+    /**
+     * @inheritdoc
+     */
     public function getEditForm($id = null, $fields = null)
     {
         $form      = parent::getEditForm($id, $fields);
@@ -37,6 +54,8 @@ class YearCalendarAdmin extends ModelAdmin
             ->removeComponentsByType('GridFieldPaginator')
             ->addComponent($pagination = new GridFieldPaginator(500));
         $pagination->setThrowExceptionOnBadDataType(false);
+
+        $this->extends('modifyEditForm', $form);
 
         return $form;
     }

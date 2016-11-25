@@ -2,16 +2,33 @@
 
 class YearCalendarImport extends DataObject
 {
+    /**
+     * @inheritdoc
+     */
     private static $singular_name = 'Year Calender Import';
+
+    /**
+     * @inheritdoc
+     */
     private static $plural_name   = 'Year Calender Imports';
 
+    /**
+     * Constant header cell value
+     *
+     */
     const HEADERCELL = 'Titel';
 
+    /**
+     * @inheritdoc
+     */
     private static $summary_fields = [
         'Name',
         'LastEdited',
     ];
 
+    /**
+     * @inheritdoc
+     */
     private static $has_one = [
         'Import' => 'File',
     ];
@@ -35,6 +52,8 @@ class YearCalendarImport extends DataObject
             )
                 ->setFolderName('imports')
         );
+
+        $this->extend('modifyCMSFields', $fields);
 
         return $fields;
     }

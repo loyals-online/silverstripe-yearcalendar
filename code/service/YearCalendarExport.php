@@ -2,6 +2,10 @@
 
 class YearCalendarExport
 {
+    /**
+     * Constants header values
+     *
+     */
     const HEADER_A = 'Titel';
     const HEADER_B = 'Datum van';
     const HEADER_C = 'Tijd van';
@@ -11,14 +15,27 @@ class YearCalendarExport
     const HEADER_G = 'Inhoud';
     const HEADER_H = 'Tag';
 
+    /**
+     * Constants whole day values
+     *
+     */
     const WHOLE_DAY_YES = 'Ja';
     const WHOLE_DAY_NO  = 'Nee';
 
+    /**
+     * Create a new instance
+     *
+     * @return static
+     */
     public static function create()
     {
         return new static();
     }
 
+    /**
+     * Generate a new spreadsheet
+     * 
+     */
     public function generate()
     {
         $excel = new \PHPExcel\Spreadsheet();

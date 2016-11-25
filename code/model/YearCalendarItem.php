@@ -2,9 +2,19 @@
 
 class YearCalendarItem extends DataObject
 {
+    /**
+     * @inheritdoc
+     */
     private static $singular_name = 'Year Calendar Item';
+
+    /**
+     * @inheritdoc
+     */
     private static $plural_name   = 'Year Calendar Items';
 
+    /**
+     * @inheritdoc
+     */
     private static $db = [
         'Title'          => 'Varchar',
         'From'           => 'SS_DateTime',
@@ -14,14 +24,23 @@ class YearCalendarItem extends DataObject
         'ExcludeWeekend' => 'Boolean',
     ];
 
+    /**
+     * @inheritdoc
+     */
     private static $defaults = [
         'NonFeatured' => 0,
     ];
 
+    /**
+     * @inheritdoc
+     */
     private static $many_many = [
         'Tags' => 'YearCalendarItemTag',
     ];
 
+    /**
+     * @inheritdoc
+     */
     public static $summary_fields = [
         'Title' => 'Title',
         'From'  => 'From',
@@ -72,14 +91,19 @@ class YearCalendarItem extends DataObject
         $fields->insertAfter($toField, 'Tags');
         $fields->insertAfter($fromField, 'Tags');
 
-        $fields->addFieldsToTab('Root.Main', [
-            FieldGroup::create(
-                CheckboxField::create('WholeDay', _t('YearCalendarItem.db_WholeDay', 'Whole Day')),
-                CheckboxField::create('NonFeatured', _t('YearCalendarItem.db_NonFeatured', 'Not featured')),
-                CheckboxField::create('ExcludeWeekend', _t('YearCalendarItem.db_ExcludeWeekend', 'Exclude weekend')))
-                ->setTitle(_t('YearCalendarItem.Options', 'Options')),
-        ], 'Tags'
+        $fields->addFieldsToTab(
+            'Root.Main',
+            [
+                FieldGroup::create(
+                    CheckboxField::create('WholeDay', _t('YearCalendarItem.db_WholeDay', 'Whole Day')),
+                    CheckboxField::create('NonFeatured', _t('YearCalendarItem.db_NonFeatured', 'Not featured')),
+                    CheckboxField::create('ExcludeWeekend', _t('YearCalendarItem.db_ExcludeWeekend', 'Exclude weekend')))
+                    ->setTitle(_t('YearCalendarItem.Options', 'Options')),
+            ],
+            'Tags'
         );
+
+        $this->extend('modifyCMSFields', $fields);
 
         return $fields;
     }
