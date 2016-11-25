@@ -55,7 +55,7 @@ class YearCalendarAdmin extends ModelAdmin
             ->addComponent($pagination = new GridFieldPaginator(500));
         $pagination->setThrowExceptionOnBadDataType(false);
 
-        $this->extends('modifyEditForm', $form);
+        $this->extend('modifyEditForm', $form);
 
         return $form;
     }
