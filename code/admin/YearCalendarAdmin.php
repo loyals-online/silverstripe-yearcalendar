@@ -59,4 +59,16 @@ class YearCalendarAdmin extends ModelAdmin
 
         return $form;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getManagedModels()
+    {
+        $models = parent::getManagedModels();
+
+        $this->extend('modifyManagedModels', $models);
+
+        return $models;
+    }
 }
