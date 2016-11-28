@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Adds an "Export list" button to the top of a {@link GridField}.
+ * Adds a Purge button to the top of a {@link GridField}.
  *
  * @package    forms
  * @subpackage fields-gridfield
  */
-class GridFieldXLSXExportButton implements GridField_HTMLProvider, GridField_ActionProvider, GridField_URLHandler
+class GridFieldPurgeYearCalendarButton implements GridField_HTMLProvider, GridField_ActionProvider, GridField_URLHandler
 {
 
     /**
@@ -37,16 +37,16 @@ class GridFieldXLSXExportButton implements GridField_HTMLProvider, GridField_Act
     {
         $button = new GridField_FormAction(
             $gridField,
-            'export',
-            _t('Calendar.ExportXLSX', 'Export to Excel'),
-            'export',
+            'purge',
+            _t('YearCalendarAdmin.PURGE', 'Purge all events'),
+            'purge',
             null
         );
-        $button->setAttribute('data-icon', 'download-csv');
+        $button->setAttribute('data-icon', 'delete');
         $button->addExtraClass('no-ajax');
 
         return array(
-            $this->targetFragment => '<p class="grid-export-button">' . $button->Field() . '</p>',
+            $this->targetFragment => '<p class="grid-purge-button">' . $button->Field() . '</p>',
         );
     }
 
@@ -59,7 +59,7 @@ class GridFieldXLSXExportButton implements GridField_HTMLProvider, GridField_Act
      */
     public function getActions($gridField)
     {
-        return array('export');
+        return array('purge');
     }
 
     /**
@@ -74,9 +74,12 @@ class GridFieldXLSXExportButton implements GridField_HTMLProvider, GridField_Act
      */
     public function handleAction(GridField $gridField, $actionName, $arguments, $data)
     {
-        if ($actionName == 'export') {
-            return $this->handleExport($gridField);
+        if ($actionName == 'purge') {
+            foreach(YearCalendarItem::get() as $item) {
+                $item->delete();
+            }
         }
+        Controller::curr()->redirectBack();
     }
 
     /**
@@ -89,25 +92,7 @@ class GridFieldXLSXExportButton implements GridField_HTMLProvider, GridField_Act
     public function getURLHandlers($gridField)
     {
         return array(
-            'export' => 'handleExport',
+            'purge' => 'handleAction',
         );
-    }
-
-    /**
-     * Handle the export, for both the action button and the URL
-     *
-     * @param GridField $gridField
-     * @param null      $request
-     *
-     * @return SS_HTTPRequest
-     */
-    public function handleExport($gridField, $request = null)
-    {
-        ob_start();
-        YearCalendarExport::create()
-            ->generate();
-        $output = ob_get_clean();
-
-        return SS_HTTPRequest::send_file($output, 'calendar.xlsx', 'application/vnd.ms-excel');
     }
 }
