@@ -21,6 +21,20 @@ class YearCalendarPage extends Page
     protected $year;
 
     /**
+     * Current archive
+     *
+     * @var string
+     */
+    protected $archive;
+
+    /**
+     * @inheritdoc
+     */
+    private static $db = [
+        'Template' => 'Enum("YearCalendar, EventList", "YearCalendar")',
+    ];
+
+    /**
      * @inheritdoc
      */
     private static $many_many = [
@@ -57,13 +71,23 @@ class YearCalendarPage extends Page
                 ->setShouldLazyLoad(true)
         );
 
+        $fields->insertAfter(
+            'Tags',
+            DropdownField::create(
+                'Template',
+                _t('YearCalendarPage.db_Template', 'Template'),
+                $this->dbObject('Template')->enumValues(),
+                $this->Template
+            )
+        );
+
         $this->extend('modifyCMSFields', $fields);
 
         return $fields;
     }
 
     /**
-     * Retrieve all YearCalendarItems for this page
+     * Retrieve all YearCalendarItems as a calendar
      *
      * @return \ArrayData
      */
@@ -112,6 +136,49 @@ class YearCalendarPage extends Page
     }
 
     /**
+     * Retrieve all YearCalendarItems in a list
+     *
+     * @return mixed
+     */
+    public function YearCalendarList()
+    {
+
+        if ($this->archive) {
+            $start = new DateTimeHelper(sprintf('%1$s-01-01', $this->archive));
+            $end   = new DateTimeHelper(sprintf('%1$s-12-31', $this->archive));
+            $start->setTimeToDayStart();
+            $end->setTimeToDayEnd();
+            $where = [
+                '"YearCalendarItem"."From" < ? AND "YearCalendarItem"."To" > ?'   => [$start->getSqlDateTime(), $start->getSqlDateTime()],
+                '"YearCalendarItem"."To" > ? AND "YearCalendarItem"."From" < ?'   => [$end->getSqlDateTime(), $end->getSqlDateTime()],
+                '"YearCalendarItem"."To" >= ? AND "YearCalendarItem"."From" <= ?' => [$start->getSqlDateTime(), $end->getSqlDateTime()],
+            ];
+        } else {
+            $start = new DateTimeHelper();
+            $start->setTimeToDayStart();
+            $where = [
+                '"YearCalendarItem"."To" >= ?' => [$start->getSqlDateTime()],
+            ];
+        }
+
+        $items = YearCalendarItem::get()
+            ->whereAny($where);
+
+        // if we have Tags, filter items by them
+        if ($this->Tags()
+            ->Count()
+        ) {
+            $items = $items->filter([
+                'Tags.ID' => $this->Tags()
+                    ->map('ID', 'ID')
+                    ->toArray(),
+            ]);
+        }
+
+        return EventList::create($items->Sort('From', 'asc'));
+    }
+
+    /**
      * Retrieve everything marked as a holiday
      *
      * @return mixed
@@ -146,6 +213,16 @@ class YearCalendarPage extends Page
         $this->month = $month;
         $this->year  = $year;
     }
+
+    /**
+     * Set the current archive
+     *
+     * @param $archive
+     */
+    public function setArchive($archive)
+    {
+        $this->archive = $archive;
+    }
 }
 
 /**
@@ -159,6 +236,7 @@ class YearCalendarPage_Controller extends Page_Controller
      */
     private static $allowed_actions = [
         'ical',
+        'year',
     ];
 
     /**
@@ -174,6 +252,32 @@ class YearCalendarPage_Controller extends Page_Controller
             ->getVar('year') ?: date('Y');
         $this->data()
             ->setDate($month, $year);
+    }
+
+    /**
+     * index action
+     *
+     * @return mixed
+     */
+    public function index()
+    {
+        return $this->renderWith($this->templates());
+    }
+
+    /**
+     * year action
+     *
+     * @return mixed
+     */
+    public function year()
+    {
+        $this->data()
+            ->setArchive(
+                $this->getRequest()
+                    ->param('ID')
+            );
+
+        return $this->renderWith($this->templates('EventList'));
     }
 
     /**
@@ -227,5 +331,21 @@ class YearCalendarPage_Controller extends Page_Controller
         }
 
         return SS_HTTPRequest::send_file($ical->serialize(), 'calendar.ics', 'text/calendar; charset=utf-8');
+    }
+
+    /**
+     * Retrieve the templates we're using to render
+     *
+     * @return array
+     */
+    protected function templates($template = null)
+    {
+        if (is_null($template)) {
+            $template = $this->data()->Template;
+        }
+        return [
+            sprintf('%1$sPage', $template),
+            'Page',
+        ];
     }
 }
