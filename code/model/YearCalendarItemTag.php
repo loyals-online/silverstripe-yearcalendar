@@ -41,7 +41,7 @@ class YearCalendarItemTag extends DataObject
         $URLSegment = $this->getLocalizedFieldnames('URLSegment');
         $Title      = $this->getLocalizedFieldnames('Title');
 
-        foreach($URLSegment as $index => $fieldName) {
+        foreach ($URLSegment as $index => $fieldName) {
             if (!$this->$fieldName && $this->$Title[$index]) {
                 $this->$fieldName = $this->generateURLSegment($this->$Title[$index]);
             } else {
@@ -177,5 +177,18 @@ class YearCalendarItemTag extends DataObject
         }
 
         return $fieldnames;
+    }
+
+    /**
+     * Retrieve the items for this tag
+     *
+     * @return \DataList
+     */
+    public function Items()
+    {
+        return YearCalendarItem::get()
+            ->filter([
+                'Tags.ID' => $this->ID,
+            ]);
     }
 }

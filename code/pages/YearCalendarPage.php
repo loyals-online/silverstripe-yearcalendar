@@ -76,7 +76,8 @@ class YearCalendarPage extends Page
             DropdownField::create(
                 'Template',
                 _t('YearCalendarPage.db_Template', 'Template'),
-                $this->dbObject('Template')->enumValues(),
+                $this->dbObject('Template')
+                    ->enumValues(),
                 $this->Template
             )
         );
@@ -223,6 +224,7 @@ class YearCalendarPage extends Page
     {
         $this->archive = $archive;
     }
+
 }
 
 /**
@@ -334,6 +336,33 @@ class YearCalendarPage_Controller extends Page_Controller
     }
 
     /**
+     * Retrieve tags belonging to this Page
+     *
+     * @return \DataList
+     */
+    public function Tags()
+    {
+        /** @var DataList $tags */
+        $tags = $this->data()
+            ->Tags()
+            ->Count() ? $this->data()
+            ->Tags() : YearCalendarItemTag::get();
+
+        /** @var YearCalendarItemTag $object */
+        $tags = $tags->filter([
+
+        ])
+            ->filterByCallback(function ($object) {
+                return $object->Items()
+                    ->Count();
+            });
+
+        $this->extend('updateTags', $tags);
+
+        return $tags;
+    }
+
+    /**
      * Retrieve the templates we're using to render
      *
      * @return array
@@ -343,6 +372,7 @@ class YearCalendarPage_Controller extends Page_Controller
         if (is_null($template)) {
             $template = $this->data()->Template;
         }
+
         return [
             sprintf('%1$sPage', $template),
             'Page',
