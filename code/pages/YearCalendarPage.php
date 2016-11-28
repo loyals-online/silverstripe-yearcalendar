@@ -349,13 +349,10 @@ class YearCalendarPage_Controller extends Page_Controller
             ->Tags() : YearCalendarItemTag::get();
 
         /** @var YearCalendarItemTag $object */
-        $tags = $tags->filter([
-
-        ])
-            ->filterByCallback(function ($object) {
-                return $object->Items()
-                    ->Count();
-            });
+        $tags = $tags->filterByCallback(function ($object) {
+            return $object->Items()
+                ->Count();
+        });
 
         $this->extend('updateTags', $tags);
 
