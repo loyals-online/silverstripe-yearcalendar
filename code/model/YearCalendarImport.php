@@ -259,10 +259,10 @@ class YearCalendarImport extends DataObject
      */
     protected function createBoolFromCell($value, $true = true, $false = false)
     {
-        if ($value == $true) {
+        if (strtolower($value) == strtolower($true)) {
             return true;
         }
-        if ($value == $false) {
+        if (strtolower($value) == strtolower($false)) {
             return false;
         }
 
