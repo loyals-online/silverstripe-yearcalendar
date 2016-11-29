@@ -34,11 +34,11 @@ class YearCalendarExport
 
     /**
      * Generate a new spreadsheet
-     * 
+     *
      */
     public function generate()
     {
-        $excel = new \PHPExcel\Spreadsheet();
+        $excel = new \PHPExcel();
 
         $sheet = $excel->getActiveSheet();
 
@@ -79,14 +79,14 @@ class YearCalendarExport
                 1,
                 $row,
                 $from->format('d-m-Y'),
-                \PHPExcel\Cell\DataType::TYPE_STRING
+                \PHPExcel_Cell_DataType::TYPE_STRING
             );
             $sheet->setCellValueExplicitByColumnAndRow(2, $row, !$item->WholeDay ? $from->format('H:i') : '');
             $sheet->setCellValueExplicitByColumnAndRow(
                 3,
                 $row,
                 $to->format('d-m-Y'),
-                \PHPExcel\Cell\DataType::TYPE_STRING
+                \PHPExcel_Cell_DataType::TYPE_STRING
             );
             $sheet->setCellValueExplicitByColumnAndRow(4, $row, !$item->WholeDay ? $to->format('H:i') : '');
             $sheet->setCellValueExplicitByColumnAndRow(5, $row, $item->WholeDay ? static::WHOLE_DAY_YES : static::WHOLE_DAY_NO);
@@ -95,7 +95,7 @@ class YearCalendarExport
             ++$row;
         }
 
-        $file = new PHPExcel\Writer\Excel2007($excel);
+        $file = new PHPExcel_Writer_Excel2007($excel);
 
         $file->save('php://output');
     }
