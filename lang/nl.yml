@@ -1,6 +1,7 @@
 nl:
   YearCalendarAdmin:
     MENUTITLE: Jaarkalender
+    PURGE: 'Verwijder alle evenementen'
   YearCalendar:
     YearCalendar: 'Jaarkalender'
     Holidays: 'Vakanties'
