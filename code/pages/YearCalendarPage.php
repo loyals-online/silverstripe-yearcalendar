@@ -359,6 +359,50 @@ class YearCalendarPage_Controller extends Page_Controller
     }
 
     /**
+     * Create a dropdown field
+     *
+     * @return DropdownField
+     */
+    public function ArchiveDropdown()
+    {
+        Requirements::customScript(sprintf("
+            var link = '%1\$s'
+        ", $this->Link()));
+
+        return DropdownField::create(
+            'Year',
+            null,
+            $this->Years(),
+            $this->data()
+                ->getArchive()
+        )
+            ->setEmptyString('Upcoming')
+            ->addExtraClass('archive');
+    }
+
+    /**
+     * Collect the years for which we have items
+     *
+     * @return array
+     */
+    protected function Years()
+    {
+        $value = [];
+        foreach (
+            (new SQLSelect())->setFrom('YearCalendarItem as yci')
+                ->setSelect('DISTINCT(DATE_FORMAT(yci.From, \'%Y\')) as Year')
+                ->execute()
+            as $row
+        ) {
+            array_push($value, $row['Year']);
+        }
+        sort($value);
+        $value = array_combine($value, $value);
+
+        return $value;
+    }
+
+    /**
      * Retrieve the templates we're using to render
      *
      * @return array
