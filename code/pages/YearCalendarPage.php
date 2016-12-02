@@ -303,8 +303,7 @@ class YearCalendarPage_Controller extends Page_Controller
         ) {
             $agenda = $agenda->filter([
                 'Tags.ID' => $this->Tags()
-                    ->map('ID', 'ID')
-                    ->toArray(),
+                    ->map('ID', 'ID'),
             ]);
         }
 
