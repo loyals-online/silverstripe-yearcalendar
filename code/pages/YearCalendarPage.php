@@ -295,9 +295,42 @@ class YearCalendarPage_Controller extends Page_Controller
     /**
      * ical action
      *
-     * @return mixed
+     * @return \SS_HTTPResponse
      */
     public function ical()
+    {
+        if ($id = $this->getRequest()
+            ->param('ID')
+        ) {
+            return $this->itemIcal($id);
+        }
+
+        return $this->pageIcal();
+    }
+
+    /**
+     * Generate an ical response for a single item
+     *
+     * @param int $id
+     *
+     * @return \SS_HTTPResponse
+     */
+    protected function itemIcal($id)
+    {
+        $agenda = YearCalendarItem::get()
+            ->filter(['ID' => $id]);
+        $filter = URLSegmentFilter::create();
+        $title  = $filter->filter($agenda->First()->Title);
+
+        return $this->generateIcal($agenda, $title);
+    }
+
+    /**
+     * Generate an ical response for this page
+     *
+     * @return \SS_HTTPResponse
+     */
+    protected function pageIcal()
     {
         $now = new DateTimeHelper();
 
@@ -317,6 +350,22 @@ class YearCalendarPage_Controller extends Page_Controller
             ]);
         }
 
+        $filter = URLSegmentFilter::create();
+        $title  = $filter->filter($this->data()->Title);
+
+        return $this->generateIcal($agenda, $title);
+    }
+
+    /**
+     * Generate an ical response
+     *
+     * @param DataList $agenda
+     * @param string $filename
+     *
+     * @return \SS_HTTPResponse
+     */
+    protected function generateIcal(DataList $agenda, $filename = 'calendar')
+    {
         $ical = new Sabre\VObject\Component\VCalendar([
             'PRODID'       => 'JaarKalender',
             'X-WR-CALNAME' => SiteConfig::current_site_config()->Title . ' Jaarkalender',
@@ -341,7 +390,7 @@ class YearCalendarPage_Controller extends Page_Controller
                 ->format('Ymd\THis\Z');
         }
 
-        return SS_HTTPRequest::send_file($ical->serialize(), 'calendar.ics', 'text/calendar; charset=utf-8');
+        return SS_HTTPRequest::send_file($ical->serialize(), sprintf('%1$s.ics', $filename), 'text/calendar; charset=utf-8');
     }
 
     /**
