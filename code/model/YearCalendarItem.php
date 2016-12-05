@@ -240,7 +240,7 @@ class YearCalendarItem extends DataObject
             ->leftJoin("YearCalendarItem_Tags", "YearCalendarItemTag.ID = YearCalendarItem_Tags.YearCalendarItemTagID")
             ->where(["YearCalendarItem_Tags.YearCalendarItemID = ?" => [$this->ID]]);
 
-        $this->extend('updateTags', $tags);
+        $this->extend('updateDisplayTags', $tags);
 
         return $tags;
     }
