@@ -206,8 +206,8 @@ class YearCalendarPage extends Page
     /**
      * Set the current date
      *
-     * @param $month
-     * @param $year
+     * @param string $month
+     * @param string $year
      */
     public function setDate($month, $year)
     {
@@ -218,11 +218,21 @@ class YearCalendarPage extends Page
     /**
      * Set the current archive
      *
-     * @param $archive
+     * @param string $archive
      */
     public function setArchive($archive)
     {
         $this->archive = $archive;
+    }
+
+    /**
+     * Retrieve the current archive
+     *
+     * @return string
+     */
+    public function getArchive()
+    {
+        return $this->archive;
     }
 
 }
