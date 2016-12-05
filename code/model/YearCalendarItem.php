@@ -230,11 +230,11 @@ class YearCalendarItem extends DataObject
     }
 
     /**
-     * Retrieve the Tags for this Item
+     * Retrieve the Tags for this Item for display purposes
      *
      * @return \DataList
      */
-    public function Tags()
+    public function DisplayTags()
     {
         $tags = YearCalendarItemTag::get()
             ->leftJoin("YearCalendarItem_Tags", "YearCalendarItemTag.ID = YearCalendarItem_Tags.YearCalendarItemTagID")
