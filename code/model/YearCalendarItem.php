@@ -228,4 +228,20 @@ class YearCalendarItem extends DataObject
 
         return $articles;
     }
+
+    /**
+     * Retrieve the Tags for this Item
+     *
+     * @return \DataList
+     */
+    public function Tags()
+    {
+        $tags = YearCalendarItemTag::get()
+            ->leftJoin("YearCalendarItem_Tags", "YearCalendarItemTag.ID = YearCalendarItem_Tags.YearCalendarItemTagID")
+            ->where(["YearCalendarItem_Tags.YearCalendarItemID = ?" => [$this->ID]]);
+
+        $this->extend('updateTags', $tags);
+
+        return $tags;
+    }
 }

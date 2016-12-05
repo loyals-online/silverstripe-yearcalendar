@@ -207,7 +207,7 @@ class YearCalendarPage extends Page
      * Set the current date
      *
      * @param string $month
-     * @param string $year
+     * @param $year
      */
     public function setDate($month, $year)
     {
@@ -408,6 +408,8 @@ class YearCalendarPage_Controller extends Page_Controller
         }
         sort($value);
         $value = array_combine($value, $value);
+
+        $this->extend('updateYears', $value);
 
         return $value;
     }
