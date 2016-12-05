@@ -74,7 +74,9 @@ class YearCalendarItemTag extends DataObject
 
         $fields->addFieldsToTab('Root.Translations', $this->getTranslatableTabSet());
 
-        $fields->removeByName($this->getLocalizedFieldnames('URLSegment'));
+        if ($segmentFields = $this->getLocalizedFieldnames('URLSegment')) {
+            $fields->removeByName($segmentFields);
+        }
 
         $this->extend('modifyCMSFields', $fields);
 
@@ -171,12 +173,17 @@ class YearCalendarItemTag extends DataObject
     protected function getLocalizedFieldnames($field)
     {
         $fieldnames = [];
-        foreach (SiteLocaleConfig::inst()
-                     ->getAllowedLocales() as $locale) {
-            array_push($fieldnames, TranslatableDataObject::localized_field($field, $locale));
+        if ($locales = SiteLocaleConfig::inst()
+            ->getAllowedLocales()
+        ) {
+            foreach ($locales as $locale) {
+                array_push($fieldnames, TranslatableDataObject::localized_field($field, $locale));
+            }
+
+            return $fieldnames;
         }
 
-        return $fieldnames;
+        return false;
     }
 
     /**
