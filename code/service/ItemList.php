@@ -49,6 +49,10 @@ class EventList
             $list[$year][$month]->push($event);
         }
 
+        if (!$list) {
+            return false;
+        }
+
         foreach ($list as $y => $months) {
             $year = ArrayData::create([
                 static::RESPONSE_YEAR   => $y,
