@@ -155,7 +155,7 @@ class YearCalendarItem extends DataObject
     public function DisplayFromDate($format = 'd M')
     {
         $month = false;
-        if (strpos($format, 'F')) {
+        if (strpos($format, 'F') !== false) {
             $format = str_replace('F', '[|]', $format);
             $month  = true;
         }
