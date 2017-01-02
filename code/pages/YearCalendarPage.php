@@ -322,6 +322,8 @@ class YearCalendarPage_Controller extends Page_Controller
         $filter = URLSegmentFilter::create();
         $title  = $filter->filter($agenda->First()->Title);
 
+        $this->extend('updateItemIcalTitle', $title);
+
         return $this->generateIcal($agenda, $title);
     }
 
@@ -352,6 +354,8 @@ class YearCalendarPage_Controller extends Page_Controller
 
         $filter = URLSegmentFilter::create();
         $title  = $filter->filter($this->data()->Title);
+
+        $this->extend('updatePageIcalTitle', $title);
 
         return $this->generateIcal($agenda, $title);
     }
