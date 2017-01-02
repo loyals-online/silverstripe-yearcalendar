@@ -16,7 +16,7 @@ class YearCalendarItem extends DataObject
      * @inheritdoc
      */
     private static $db = [
-        'Title'          => 'Varchar',
+        'Title'          => 'Varchar(255)',
         'From'           => 'SS_DateTime',
         'To'             => 'SS_DateTime',
         'WholeDay'       => 'Boolean',
