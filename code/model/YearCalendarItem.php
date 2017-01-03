@@ -109,6 +109,24 @@ class YearCalendarItem extends DataObject
     }
 
     /**
+     * Retrieve the validator for this model
+     *
+     * @return \RequiredFields
+     *
+     * @note This is an undocumented feature
+     */
+    public function getCMSValidator()
+    {
+        $requiredFields = [];
+
+        $this->extend('updateCMSValidatorFields', $requiredFields);
+
+        if (!empty($requiredFields)) {
+            return new RequiredFields($requiredFields);
+        }
+    }
+
+    /**
      * @inheritdoc
      */
     public function onBeforeWrite()
