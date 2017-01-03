@@ -121,9 +121,7 @@ class YearCalendarItem extends DataObject
 
         $this->extend('updateCMSValidatorFields', $requiredFields);
 
-        if (!empty($requiredFields)) {
-            return new RequiredFields($requiredFields);
-        }
+        return new RequiredFields($requiredFields);
     }
 
     /**
