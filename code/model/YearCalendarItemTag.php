@@ -2,6 +2,35 @@
 
 class YearCalendarItemTag extends DataObject
 {
+
+    /**
+     * @inheritdoc
+     */
+    public function canView($member = null) {
+        return Permission::check('CMS_ACCESS_YearCalendarAdmin', 'any', $member);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function canEdit($member = null) {
+        return Permission::check('CMS_ACCESS_YearCalendarAdmin', 'any', $member);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function canDelete($member = null) {
+        return Permission::check('CMS_ACCESS_YearCalendarAdmin', 'any', $member);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function canCreate($member = null) {
+        return Permission::check('CMS_ACCESS_YearCalendarAdmin', 'any', $member);
+    }
+
     /**
      * @inheritdoc
      */

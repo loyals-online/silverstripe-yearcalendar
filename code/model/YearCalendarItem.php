@@ -2,6 +2,39 @@
 
 class YearCalendarItem extends DataObject
 {
+
+    /**
+     * @inheritdoc
+     */
+    public function canView($member = null)
+    {
+        return Permission::check('CMS_ACCESS_YearCalendarAdmin', 'any', $member);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function canEdit($member = null)
+    {
+        return Permission::check('CMS_ACCESS_YearCalendarAdmin', 'any', $member);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function canDelete($member = null)
+    {
+        return Permission::check('CMS_ACCESS_YearCalendarAdmin', 'any', $member);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function canCreate($member = null)
+    {
+        return Permission::check('CMS_ACCESS_YearCalendarAdmin', 'any', $member);
+    }
+
     /**
      * @inheritdoc
      */
@@ -10,7 +43,7 @@ class YearCalendarItem extends DataObject
     /**
      * @inheritdoc
      */
-    private static $plural_name   = 'Year Calendar Items';
+    private static $plural_name = 'Year Calendar Items';
 
     /**
      * @inheritdoc
@@ -66,7 +99,9 @@ class YearCalendarItem extends DataObject
             'ExcludeWeekend',
         ]);
 
-        $fields->addFieldsToTab('Root.Translations', $this->getTranslatableTabSet());
+        $fields->addFieldsToTab('Root.Main', [
+                    $this->getTranslatableTabSet()
+        ]);
 
         $fields->addFieldToTab('Root.Main', TagField::create(
             'Tags',
