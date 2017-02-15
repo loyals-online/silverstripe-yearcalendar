@@ -31,6 +31,11 @@ class EventList
         $this->events = $events;
     }
 
+    public function getEvents()
+    {
+        return $this->events;
+    }
+
     public function generate()
     {
         $list = [];
