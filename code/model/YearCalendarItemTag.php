@@ -41,6 +41,12 @@ class YearCalendarItemTag extends DataObject
         $URLSegment = $this->getLocalizedFieldnames('URLSegment');
         $Title      = $this->getLocalizedFieldnames('Title');
 
+        // getLocalizedFieldnames can return false
+        if (empty($URLSegment) || empty($Title)) {
+            $URLSegment = ['URLSegment'];
+            $Title      = ['Title'];
+        }
+
         foreach ($URLSegment as $index => $fieldName) {
             if (!$this->$fieldName && $this->$Title[$index]) {
                 $this->$fieldName = $this->generateURLSegment($this->$Title[$index]);
