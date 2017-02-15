@@ -2,6 +2,35 @@
 
 class YearCalendarItemTag extends DataObject
 {
+
+    /**
+     * @inheritdoc
+     */
+    public function canView($member = null) {
+        return Permission::check('CMS_ACCESS_YearCalendarAdmin', 'any', $member);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function canEdit($member = null) {
+        return Permission::check('CMS_ACCESS_YearCalendarAdmin', 'any', $member);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function canDelete($member = null) {
+        return Permission::check('CMS_ACCESS_YearCalendarAdmin', 'any', $member);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function canCreate($member = null) {
+        return Permission::check('CMS_ACCESS_YearCalendarAdmin', 'any', $member);
+    }
+
     /**
      * @inheritdoc
      */
@@ -78,7 +107,7 @@ class YearCalendarItemTag extends DataObject
             'SortOrder',
         ]);
 
-        $fields->addFieldsToTab('Root.Translations', $this->getTranslatableTabSet());
+        $fields->addFieldsToTab('Root.Main', $this->getTranslatableTabSet());
 
         if ($segmentFields = $this->getLocalizedFieldnames('URLSegment')) {
             $fields->removeByName($segmentFields);
@@ -179,14 +208,15 @@ class YearCalendarItemTag extends DataObject
     protected function getLocalizedFieldnames($field)
     {
         $fieldnames = [];
-        if ($locales = SiteLocaleConfig::inst()
-            ->getAllowedLocales()
-        ) {
-            foreach ($locales as $locale) {
-                array_push($fieldnames, TranslatableDataObject::localized_field($field, $locale));
-            }
+        if (class_exists('Translatable')) {
 
-            return $fieldnames;
+            if ($locales = Translatable::get_allowed_locales()) {
+                foreach ($locales as $locale) {
+                    array_push($fieldnames, TranslatableDataObject::localized_field($field, $locale));
+                }
+
+                return $fieldnames;
+            }
         }
 
         return false;

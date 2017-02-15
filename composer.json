@@ -29,8 +29,7 @@
     "silverstripe/tagfield": "^1.0",
     "mediaweb/datetime": "^1.0",
     "sabre/vobject": "~4.1",
-    "bummzack/translatable-dataobject": "1.*",
-    "novatio/silverstripe-sitelocales": "1.*"
+    "bummzack/translatable-dataobject": "1.*"
   },
   "extra": {
     "installer-name": "yearcalendar"
