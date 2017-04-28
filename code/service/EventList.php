@@ -58,6 +58,8 @@ class EventList
             return false;
         }
 
+        /** @var ArrayList $years */
+        $years = ArrayList::create([]);
         foreach ($list as $y => $months) {
             $year = ArrayData::create([
                 static::RESPONSE_YEAR   => $y,
@@ -73,8 +75,9 @@ class EventList
                 ]);
                 $year->{static::RESPONSE_MONTHS}->push($group);
             }
+            $years->push($year);
         }
 
-        return $year;
+        return $years;
     }
 }
