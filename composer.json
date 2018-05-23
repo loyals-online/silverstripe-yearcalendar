@@ -24,7 +24,7 @@
   "require": {
     "silverstripe/framework": "~3.4",
     "silverstripe/cms": "~3.4",
-    "colymba/silverstripe-colorfield": "^0.2.0",
+    "colymba/silverstripe-colorfield": "^1.1",
     "phpoffice/phpexcel": "^1.8",
     "silverstripe/tagfield": "^1.0",
     "mediaweb/datetime": "^1.0",
